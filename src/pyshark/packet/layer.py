@@ -234,8 +234,15 @@ class JsonLayer(Layer):
 
         We convert the showname key into the field name. The internals will turn into a fake layer.
         In this case the field will be accessible by pkt.my_layer.something_special.special_field
+        ###############################
+        Special treatment IEC 60870_ asdu Replace IOA Point layer name
+        ###############################
+        
         """
-        showname_key = field_name.split(":", 1)[0]
+        if 'IOA:' in field_name:
+            showname_key = field_name.replace(" ","")
+        else:
+            showname_key = field_name.split(":", 1)[0]
         return self._full_name + "." + showname_key.lower().replace(" ", "_")
 
     @property
